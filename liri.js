@@ -1,22 +1,20 @@
+require("dotenv").config();
 // require("dotenv").config();
 var keys = require('./keys.js');
 var axios = require('axios');
 var fs = require("fs");
 var Spotify = require('node-spotify-api');
 
-var spotify = new Spotify({
-    id: '5239157104bd42d18e0330fe601dbd1b',
-    secret: '3f9d56d607e74befb6b026822fa6f927',
-});
+var spotify = new Spotify(keys.spotify);
 
 var getMeSpotify = function (songName) {
     var songName = "";
     songName += process.argv[2]+ ""
-    spotify.search({ type: 'track', query: songName }, function (err, data) {
+    spotify.search({ type: 'track', query: songName, limit:2 }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data);
+        console.log(data.tracks.items[0].artists);
     });
 };
 
@@ -28,16 +26,16 @@ var getMeMovie = function (movieName) {
     })
 }
 
-fs.readFile("random.txt", "utf8", function (error, data) {
+// fs.readFile("random.txt", "utf8", function (error, data) {
 
-    if (error) {
-        return console.log(error);
-    }
+//     if (error) {
+//         return console.log(error);
+//     }
 
-    var dataArr = data.split(",");
+//     var dataArr = data.split(",");
 
-    console.log(dataArr);
-});
+//     console.log(dataArr);
+// });
 
 // getMeMovie();
 getMeSpotify();
